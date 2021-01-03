@@ -83,3 +83,6 @@ D:\My Work\AngularWebAPITutorial\api\WebAPI\WebApplication1\obj\Debug\WebApplica
 D:\My Work\AngularWebAPITutorial\api\WebAPI\WebApplication1\obj\Debug\WebApplication1.csproj.CopyComplete
 D:\My Work\AngularWebAPITutorial\api\WebAPI\WebApplication1\obj\Debug\WebApplication1.dll
 D:\My Work\AngularWebAPITutorial\api\WebAPI\WebApplication1\obj\Debug\WebApplication1.pdb
+D:\My Work\AngularWebAPITutorial\api\WebAPI\WebApplication1\bin\System.Web.Cors.dll
+D:\My Work\AngularWebAPITutorial\api\WebAPI\WebApplication1\bin\System.Web.Http.Cors.dll
+D:\My Work\AngularWebAPITutorial\api\WebAPI\WebApplication1\bin\System.Web.Http.Cors.xml
