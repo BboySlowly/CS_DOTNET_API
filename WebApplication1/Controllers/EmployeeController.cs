@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using WebApplication1.Models;
 
@@ -15,12 +16,7 @@ namespace WebApplication1.Controllers
     {
         public HttpResponseMessage Get()
         {
-            string query = @"SELECT EmployeeId,
-                                    EmployeeName,
-                                    Department,
-                                    DateOfjoining,
-                                    PhotoFileName
-                                    FROM employeedb.`dbo.employee`";
+            string query = @"SELECT * FROM employeedb.`dbo.employee`";
             DataTable table = new DataTable();
             using (var con = new MySqlConnection(ConfigurationManager.ConnectionStrings["EmployeeAppDB"].ConnectionString))
             using (var cmd = new MySqlCommand(query, con))
@@ -54,7 +50,7 @@ namespace WebApplication1.Controllers
 
                 return "Added Successfully!!";
             }
-            catch
+            catch (Exception)
             {
                 return "Failed to Add!!";
             }
@@ -81,7 +77,7 @@ namespace WebApplication1.Controllers
 
                 return "Updated Successfully!!";
             }
-            catch
+            catch (Exception)
             {
                 return "Failed to Update!!";
             }
@@ -103,7 +99,7 @@ namespace WebApplication1.Controllers
 
                 return "Deleted Successfully!!";
             }
-            catch
+            catch (Exception)
             {
                 return "Failed to Add!!";
             }
@@ -124,6 +120,26 @@ namespace WebApplication1.Controllers
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("api/Employee/SaveFile")]
+        public string SaveFile()
+        {
+            try
+            {
+                var httpRequest = HttpContext.Current.Request;
+                var postedFile = httpRequest.Files[0];
+                string filename = postedFile.FileName;
+                var physicalPath = HttpContext.Current.Server.MapPath("~/Photos/" + filename);
+
+                postedFile.SaveAs(physicalPath);
+
+                return filename;
+            }
+            catch (Exception)
+            {
+                return "anonymous.png";
+            }
         }
     }
 }

@@ -44,7 +44,7 @@ namespace WebApplication1.Controllers
 
                 return "Added Successfully!!";
             }
-            catch
+            catch (Exception)
             {
                 return "Failed to Add!!";
             }
@@ -66,7 +66,7 @@ namespace WebApplication1.Controllers
 
                 return "Updated Successfully!!";
             }
-            catch
+            catch (Exception)
             {
                 return "Failed to Update!!";
             }
@@ -88,7 +88,7 @@ namespace WebApplication1.Controllers
 
                 return "Deleted Successfully!!";
             }
-            catch
+            catch (Exception)
             {
                 return "Failed to Add!!";
             }
