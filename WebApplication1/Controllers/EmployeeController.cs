@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -16,11 +17,23 @@ namespace WebApplication1.Controllers
     {
         public HttpResponseMessage Get()
         {
-            string query = @"SELECT * FROM employeedb.`dbo.employee`";
+            // MySQL
+            //string query = @"SELECT * FROM employeedb.`dbo.employee`";
+            //DataTable table = new DataTable();
+            //using (var con = new MySqlConnection(ConfigurationManager.ConnectionStrings["EmployeeAppDB"].ConnectionString))
+            //using (var cmd = new MySqlCommand(query, con))
+            //using (var da = new MySqlDataAdapter(cmd))
+            //{
+            //    cmd.CommandType = CommandType.Text;
+            //    da.Fill(table);
+            //}
+
+            // SQL
+            string query = @"select EmployeeId, EmployeeName, Department, convert(varchar(10),DateOfJoining,120) as DateOfJoining, PhotoFileName from dbo.Employee";
             DataTable table = new DataTable();
-            using (var con = new MySqlConnection(ConfigurationManager.ConnectionStrings["EmployeeAppDB"].ConnectionString))
-            using (var cmd = new MySqlCommand(query, con))
-            using (var da = new MySqlDataAdapter(cmd))
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["EmployeeAppDB"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
             {
                 cmd.CommandType = CommandType.Text;
                 da.Fill(table);
@@ -33,16 +46,35 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                string query = @"INSERT INTO `employeedb`.`dbo.employee`
-                                    (`EmployeeName`,`Department`,`DateOfJoining`,`PhotoFileName`)
-                                    VALUES('" + emp.EmployeeName + @"',
-                                           '" + emp.Department + @"',
-                                           '" + emp.DateOfJoining + @"',
-                                           '" + emp.PhotoFileName + @"')";
+                // MySQL
+                //string query = @"INSERT INTO `employeedb`.`dbo.employee`
+                //                    (`EmployeeName`,`Department`,`DateOfJoining`,`PhotoFileName`)
+                //                    VALUES('" + emp.EmployeeName + @"',
+                //                           '" + emp.Department + @"',
+                //                           '" + emp.DateOfJoining + @"',
+                //                           '" + emp.PhotoFileName + @"')";
+                //DataTable table = new DataTable();
+                //using (var con = new MySqlConnection(ConfigurationManager.ConnectionStrings["EmployeeAppDB"].ConnectionString))
+                //using (var cmd = new MySqlCommand(query, con))
+                //using (var da = new MySqlDataAdapter(cmd))
+                //{
+                //    cmd.CommandType = CommandType.Text;
+                //    da.Fill(table);
+                //}
+
+                // SQL
+                string query = @"insert into dbo.Employee
+                            (EmployeeName,Department,DateOfJoining,PhotoFileName)
+                            values(
+                            '" + emp.EmployeeName + @"',
+                            '" + emp.Department + @"',
+                            '" + emp.DateOfJoining + @"',
+                            '" + emp.PhotoFileName + @"'
+                            )";
                 DataTable table = new DataTable();
-                using (var con = new MySqlConnection(ConfigurationManager.ConnectionStrings["EmployeeAppDB"].ConnectionString))
-                using (var cmd = new MySqlCommand(query, con))
-                using (var da = new MySqlDataAdapter(cmd))
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["EmployeeAppDB"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
                 {
                     cmd.CommandType = CommandType.Text;
                     da.Fill(table);
@@ -60,16 +92,33 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                string query = @"UPDATE `employeedb`.`dbo.employee` SET
-                                        `EmployeeName` = '" + emp.EmployeeName + @"',
-                                        `Department` = '" + emp.Department + @"',
-                                        `DateOfJoining` = '" + emp.DateOfJoining + @"',
-                                        `PhotoFileName` = '" + emp.PhotoFileName + @"'
-                                        WHERE(`EmployeeId` = '" + emp.EmployeeId + @"')";
+                // MySQL
+                //string query = @"UPDATE `employeedb`.`dbo.employee` SET
+                //                        `EmployeeName` = '" + emp.EmployeeName + @"',
+                //                        `Department` = '" + emp.Department + @"',
+                //                        `DateOfJoining` = '" + emp.DateOfJoining + @"',
+                //                        `PhotoFileName` = '" + emp.PhotoFileName + @"'
+                //                        WHERE(`EmployeeId` = '" + emp.EmployeeId + @"')";
+                //DataTable table = new DataTable();
+                //using (var con = new MySqlConnection(ConfigurationManager.ConnectionStrings["EmployeeAppDB"].ConnectionString))
+                //using (var cmd = new MySqlCommand(query, con))
+                //using (var da = new MySqlDataAdapter(cmd))
+                //{
+                //    cmd.CommandType = CommandType.Text;
+                //    da.Fill(table);
+                //}
+
+                // SQL
+                string query = @"update dbo.Employee set
+                            EmployeeName = '" + emp.EmployeeName + @"',
+                            Department = '" + emp.Department + @"',
+                            DateOfJoining = '" + emp.DateOfJoining + @"',
+                            PhotoFileName = '" + emp.PhotoFileName + @"'
+                            where EmployeeId = " + emp.EmployeeId + @"";
                 DataTable table = new DataTable();
-                using (var con = new MySqlConnection(ConfigurationManager.ConnectionStrings["EmployeeAppDB"].ConnectionString))
-                using (var cmd = new MySqlCommand(query, con))
-                using (var da = new MySqlDataAdapter(cmd))
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["EmployeeAppDB"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
                 {
                     cmd.CommandType = CommandType.Text;
                     da.Fill(table);
@@ -87,11 +136,23 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                string query = @"DELETE FROM employeedb.`dbo.employee` WHERE EmployeeId=" + id + @"";
+                // MySQL
+                //string query = @"DELETE FROM employeedb.`dbo.employee` WHERE EmployeeId=" + id + @"";
+                //DataTable table = new DataTable();
+                //using (var con = new MySqlConnection(ConfigurationManager.ConnectionStrings["EmployeeAppDB"].ConnectionString))
+                //using (var cmd = new MySqlCommand(query, con))
+                //using (var da = new MySqlDataAdapter(cmd))
+                //{
+                //    cmd.CommandType = CommandType.Text;
+                //    da.Fill(table);
+                //}
+
+                // SQL
+                string query = @"delete from dbo.Employee where EmployeeId = " + id + @"";
                 DataTable table = new DataTable();
-                using (var con = new MySqlConnection(ConfigurationManager.ConnectionStrings["EmployeeAppDB"].ConnectionString))
-                using (var cmd = new MySqlCommand(query, con))
-                using (var da = new MySqlDataAdapter(cmd))
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["EmployeeAppDB"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
                 {
                     cmd.CommandType = CommandType.Text;
                     da.Fill(table);
@@ -109,11 +170,23 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public HttpResponseMessage GetAllDepartmentNames()
         {
-            string query = @"SELECT DepartmentName FROM employeedb.`dbo.department`";
+            // MySQL
+            //string query = @"SELECT DepartmentName FROM employeedb.`dbo.department`";
+            //DataTable table = new DataTable();
+            //using (var con = new MySqlConnection(ConfigurationManager.ConnectionStrings["EmployeeAppDB"].ConnectionString))
+            //using (var cmd = new MySqlCommand(query, con))
+            //using (var da = new MySqlDataAdapter(cmd))
+            //{
+            //    cmd.CommandType = CommandType.Text;
+            //    da.Fill(table);
+            //}
+
+            // SQL
+            string query = @"select DepartmentId, DepartmentName from dbo.Department";
             DataTable table = new DataTable();
-            using (var con = new MySqlConnection(ConfigurationManager.ConnectionStrings["EmployeeAppDB"].ConnectionString))
-            using (var cmd = new MySqlCommand(query, con))
-            using (var da = new MySqlDataAdapter(cmd))
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["EmployeeAppDB"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
             {
                 cmd.CommandType = CommandType.Text;
                 da.Fill(table);
